@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bella ciao</title>
+</head>
+<body>
+    <pre id="cjkeywords">
+        Program based on Operators = pbo
+        Program Based on concept of Array = pbca
+        Accept a strings. Sort names in ascending order take number of values and names from user ten use compareTo method to compare the string value then sort the values. = sortnames
+        Create a package: Animals. In package animals create interface Animal with suitable behaviors. Implement the interface Animal in the same package animals. = createpackage
+        Demonstrate  Java inheritance using extends keywords = diek
+        Create a class Market having functions as DairyProducts() and Fruits() Override class Market with Classs Grocery having functions as DairyProducts(). =classmarket
+        Create class OverloadDemo having functions area() demonstrating method overloading where function area has three different functions to find area of square,area of rectangle and area of circle. = classoverloaddemo
+        Demonstrating Exception in Java 1) Display Arithmetic Exception while performing division on integers input by user. = exception
+        Demonstrate IO Exception performing File Handling operations = filehandling
+        Demonstrate creating your own exception in java = ownexception
+        Write a Java List example and demonstrate methods of Java List interface. = methodofjavalist
+        Desgin simple Calculator GUI application using AWT components. = guicalculator
+        Using AWT Components design java application to accept a students resume. = studentresume
+    </pre>
+    <pre id="pbo">
+        import java.util.Scanner;
+        class OperatorDemo{ 
+            public static void main(String[]args){ 
+               Scanner sc=new Scanner(System.in);
+               System.out.println("Enter number 1:");
+               int a=sc.nextInt(); 
+               System.out.println("Enter number 2:");
+               int b=sc.nextInt();
+               int s=0;
+               if(b&gt;a){
+                s=b-a; 
+               }
+               else{
+                s=a-b; 
+               } 
+               int c=a+b;
+               int d=a*b;
+               int e=0;
+               if(b==0){ 
+                  System.out.println("Denominator cannot be zero"); 
+                } 
+                else{
+                    e=a/b; 
+                } 
+                int f=(a&gt;b)?a:b;
+                int g=(a&gt;b)?a:b; 
+                System.out.println("Difference is:"+s); 
+                System.out.println("Sum is:"+c); 
+                System.out.println("Product is:"+d); 
+                System.out.println("Quotient is:"+e); 
+                System.out.println("Maximum is:"+f);
+                System.out.println("Minimum is:"+g); 
+             } 
+          }
+    </pre>
+    <pre id="pbca">
+class MarksDemo 
+{ 
+  public static void main(String args[]) 
+  { 
+   int s,i,sum = 1, aa= 1, ba = 1;
+   double avg;
+   s = args.length;
+   int m[] = new int[s];
+   for(i = 0; i&lt;s; i++) 
+   { 
+    m[i] = Integer.parseInt(args[i]);
+    sum += m[i]; 
+   } 
+   avg = (double)sum/s;
+   for(i = 0; i&lt;s; i++) 
+   { 
+    if(m[i]&gt;avg)
+    aa++;
+    else
+    ba++; 
+    } 
+     
+ 	System.out.println("Sum :"+sum); 
+ 	System.out.println("Array Length :"+s); 
+ 	System.out.println("Average :"+avg); 
+ 	System.out.println("Above Average :"+aa); 
+    System.out.println("Below Average :"+ba); 
+   } 
+  }
+    </pre>
+    <pre id="sortnames">
+import java.util.Scanner;
+public class Alpha 
+{ 
+public static void main (String args[]) 
+  {
+    int n; 
+     String temp; 
+     Scanner scan=new Scanner(System.in); 
+     System.out.print("Enter number of elements to want to enter:");
+     n=scan.nextInt(); 
+     String str[]=new String[n]; 
+     System.out.println("Enter the elements one by one:");
+     for(int i=0; i&lt;n; i++) 
+     { 
+ 	str[i]=scan.next(); 
+     } 
+      for(int i=0; i&lt;n; i++){ 
+ 	for(int j=i+1; j&lt;n; j++){ 
+ 	  if(str[i].compareTo(str[j])&gt;0)  
+           {  
+              temp=str[i];
+              str[i]=str[j]; 
+               str[j]=temp; 
+ 	} 
+} 
+} 
+        System.out.println("The Alphabetical order is:");
+        for(int i=0; i&lt;n; i++) 
+     { 
+ 	System.out.println(str[i]);  
+     }  
+} 
+}
+    </pre>
+    <pre id="createpackage">
+Behavious Code: package animals; 
+public interface Behaviours{
+public void type();
+public void typenames(); 
+} 
+ 
+DemoPackage Code: 
+import animals.*; 
+  
+class Demo implements Behaviours{     
+     public void type() 
+     {  
+         System.out.println("There are 6 types of animals"); 
+     } 
+      public void typenames() 
+     {  
+         System.out.println("1)Amphibians, 2)Invertebrates, 3)Fish, 4)Reptiles, 5)Birds, 6)Mammals"); 
+     } 
+} 
+public class Demopackage { 
+  public static void main(String args[]) 
+  { 
+     Demo e=new Demo(); 
+     e.type(); 
+     System.out.println("Name the types of Animals");
+     e.typenames(); 
+   } 
+}
+
+
+Elephant Code:
+import animals.*;   
+class Demo implements Behaviours{     
+     public void type() 
+     {  
+         System.out.println("Elephant is viviparous animals"); 
+     } 
+      public void typenames() 
+     {  
+         System.out.println("Elephant is herbivours animals"); 
+     } 
+} 
+public class Elephant{ 
+  public static void main(String args[]) 
+  { 
+     Demo e=new Demo(); 
+     e.type(); 
+     e.typenames(); 
+   } 
+} 
+    </pre>
+    <pre id="diek">
+        class SuperMarket {
+            public void Fruits(){
+               System.out.println("Mango,Apple,Grapes are the fruits avaliable in mart");
+            } 
+            public void Grains(){
+               System.out.println("Rice,Wheat,Oats are the grains avaliable in mart");
+            }
+            public void Dairy(){
+               System.out.println("Milk,Curd,Cheese are the dairy products avaliable in mart");
+            }
+           }
+           public class VegieMart extends SuperMarket{
+             public void Vegetables(){
+               System.out.println("Carrots,Tomatoes,Onions,Potatoes  are  the vegetables avaliable in VegieMart");
+            }
+           
+             public static void main(String args[]){
+               VegieMart demo= new VegieMart();
+               demo.Fruits();
+               demo.Grains();
+               demo.Dairy();
+               demo.Vegetables();
+            }
+           }           
+    </pre>
+    <pre id="classmarket">
+import java.io.*;
+class Market{
+ void DairyProducts()
+ {
+   System.out.println("You are inside parent class!!Customers can buy Dairy Products here");
+ }
+ 
+ void Fruits()
+ {
+   System.out.println("You are inside parent class!!Customers can buy Fruits  here");
+ }
+}
+class Grocery extends Market{
+ void DairyProducts()
+ {
+   System.out.println("You are inside chlid class!!Customers can buy Dairy Products here");
+ }
+ public static void main(String args[]){
+  Market obj=new Grocery();
+  Market obj1=new Market();
+    obj.DairyProducts();
+    obj1.DairyProducts();
+    obj.Fruits();
+ }
+}
+    </pre>
+    <pre id="classoverloaddemo">
+class OverloadDemo
+{
+ void area(float x)
+ {
+   System.out.println("the area of the square is " +Math.pow(x,2)+" sq units");
+ }
+ void area(float x,float y)
+ {
+   System.out.println("the area of the rectangle is " +x*y+" sq units");
+ }
+ void area(double x)
+ {
+   double z=3.14*x*x;
+   System.out.println("the area of the circle is " +z+" sq units");
+ }
+}
+public class Overload
+{
+ public static void main(String args[])
+  {
+   OverloadDemo ob=new OverloadDemo();
+   ob.area(5);
+   ob.area(11,12);
+   ob.area(2.5);
+  }
+}
+    </pre>
+    <pre id="exception">
+import java.util.Scanner;
+public class ArithmeticExceptionDemo{
+ public static void main(String[] args){
+   try{
+    Scanner input=new Scanner(System.in);
+   System.out.print("Input the first number:");
+   int a=input.nextInt();
+   System.out.print("Input the second number:");
+   int b=input.nextInt();
+   double d=(a/b);
+   System.out.println();
+   System.out.println("The division of a and b is:"+d);
+   }
+
+   catch(ArithmeticException e){
+       System.out.println("ArithmeticException=&gt;" + e.getMessage());
+    }
+  }
+}
+    </pre>
+    <pre id="filehandling">
+import java.io.*;
+public class ExceptionExample
+{
+    public static void main(String args[])
+    {
+        try
+        {
+            byte bWrite[]={32,45,22,12,32};
+            OutputStream os=new FileOutputStream("test.txt");
+            for(int x=0; x &lt; bWrite.length; x++)
+            {
+                os.write(bWrite[x]);
+                
+            }
+            os.close();
+            InputStream is=new FileInputStream("tes.txt");
+            int size=is.available();
+            for(int i=0; i&lt;size; i++)
+            {
+                System.out.print((int)is.read() + " ");
+                
+            }
+            is.close();
+            
+        }
+        catch (IOException e)
+        {
+            System.out.print("Exception "+e.getMessage());
+            
+        }
+        
+    }
+    
+}
+    </pre>
+    <pre id="ownexception">
+import java.util.Scanner;
+class AgeDoesnotMatchException extends Exception
+{
+    AgeDoesnotMatchException(String msg)
+    {
+        super(msg);
+        
+    }
+    
+}
+
+class Student extends RuntimeException 
+{
+    private String name;
+    private int age;
+    public Student(String name, int age)
+    {
+        try
+        {
+            if (age&lt;17||age&gt;24)
+            {
+                String msg="Age is not between 17 and 24";
+                AgeDoesnotMatchException ex = new AgeDoesnotMatchException(msg);
+                throw ex;
+                
+            }
+            
+        }
+        catch(AgeDoesnotMatchException e)
+        {
+            e.printStackTrace();
+            
+        }
+        this.name=name;
+        this.age=age;
+        
+    }
+    public void display()
+    {
+        System.out.println("Name of the Student: "+this.name);
+        System.out.println("Age of Student: "+this.age);
+        
+    }
+    public static void main(String args[])
+    {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter name of Student: ");
+        String name = sc.next();
+        System.out.println("Enter age of Student which should be between 17 to 24 (including 17 and 24): ");
+        int age = sc.nextInt();
+        Student std = new Student(name,age);
+        std.display();
+        
+    }
+}
+    </pre>
+    <pre id="methodofjavalist">
+import java.util.*;
+
+public class ListExample{
+public static void main(String args[]){
+
+ List&lt;String&gt; list=new ArrayList&lt;String&gt;();
+
+ list.add("Mango");
+ list.add("Apple");
+ list.add("Banana");
+ list.add("Grapes");
+
+System.out.println("Returning element:"+list.get(1));
+
+list.set(1,"Dates");
+
+for(String fruit:list)
+ System.out.println(fruit);
+
+System.out.println("Sorting numbers....");
+
+ List&lt;Integer&gt; list2=new ArrayList&lt;Integer&gt;();
+ list2.add(52);
+ list2.add(36);
+ list2.add(42);
+ list2.add(10);
+ 
+ Collections.sort(list2);
+
+ for(Integer number:list2)
+   System.out.println(number);
+}
+}
+    </pre>
+    <pre id="guicalculator">
+import java.awt.*;
+import java.awt.event.*;
+
+class AWTCalculator implements ActionListener
+{
+  Frame f=new Frame();
+  Label l1=new Label("First Number");
+  Label l2=new Label("Second  Number");
+  Label l3=new Label("Result");
+  
+  TextField t1=new TextField();
+  TextField t2=new TextField();
+  TextField t3=new TextField();
+
+  Button b1=new Button("ADD");
+  Button b2=new Button("SUB");
+  Button b3=new Button("MUL");
+  Button b4=new Button("DIV");
+  Button b5=new Button("Cancel");
+
+  AWTCalculator()
+ { 
+     
+     l1.setBounds(50,100,100,20);
+     l2.setBounds(50,140,100,20);
+     l3.setBounds(50,180,100,20);
+
+     t1.setBounds(200,100,100,20);
+     t2.setBounds(200,140,100,20);
+     t3.setBounds(200,180,100,20);
+
+     b1.setBounds(50,250,50,20);
+     b2.setBounds(110,250,50,20);
+     b3.setBounds(170,250,50,20);
+     b4.setBounds(230,250,50,20);
+     b5.setBounds(290,250,50,20);
+
+
+     f.add(l1);
+     f.add(l2);
+     f.add(l3);
+
+     f.add(t1);
+     f.add(t2);
+     f.add(t3);
+
+     f.add(b1);
+     f.add(b2);
+     f.add(b3);
+     f.add(b4);
+     f.add(b5);
+
+     b1.addActionListener(this);
+     b2.addActionListener(this);
+     b3.addActionListener(this);
+     b4.addActionListener(this);
+     b5.addActionListener(this);
+   
+     f.setLayout(null);
+     f.setVisible(true);
+     f.setSize(400,350);
+}
+
+public void actionPerformed(ActionEvent e)
+{
+   int n1=Integer.parseInt(t1.getText());
+   int n2=Integer.parseInt(t2.getText());
+     
+
+   if(e.getSource()==b1)
+   {
+        t3.setText(String.valueOf(n1+n2));
+   }
+   if(e.getSource()==b2)
+   {
+        t3.setText(String.valueOf(n1-n2));
+   }
+   if(e.getSource()==b3)
+   {
+        t3.setText(String.valueOf(n1*n2));
+   }
+   if(e.getSource()==b4)
+   {
+        t3.setText(String.valueOf(n1/n2));
+   }
+   if(e.getSource()==b5)
+  {
+     System.exit(0);
+  }
+}
+
+  public static void main(String args[]){
+       new AWTCalculator();
+  }
+}
+    </pre>
+    <pre id="studentresume">
+import java.awt.*;
+import java.awt.event.*;
+
+class StudentResume implements ActionListener
+{
+    
+    private static Dialog d;
+    Frame f=new Frame();
+    Label l1=new Label("First Name");
+    Label l2=new Label("Second  Name");
+    Label l3=new Label("Age");
+    Label l4=new Label("Email Id");
+    Label l5=new Label("Contact No");
+    
+  
+   TextField t1=new TextField();
+   TextField t2=new TextField();
+   TextField t3=new TextField();
+   TextField t4=new TextField();
+   TextField t5=new TextField();
+ 
+   Button b1=new Button("Submit");
+   Button b2=new Button("Cancel");
+
+   StudentResume()
+   {
+     l1.setBounds(50,100,100,20);
+     l2.setBounds(50,140,100,20);
+     l3.setBounds(50,180,100,20);
+     l4.setBounds(50,220,100,20);
+     l5.setBounds(50,260,100,20);
+
+     t1.setBounds(220,100,100,20);
+     t2.setBounds(220,140,100,20);
+     t3.setBounds(220,180,100,20);
+     t4.setBounds(220,220,100,20);
+     t5.setBounds(220,260,100,20);
+
+     b1.setBounds(50,350,50,20);
+     b2.setBounds(150,350,50,20);
+
+     f.add(l1);
+     f.add(l2);
+     f.add(l3);
+     f.add(l4);
+     f.add(l5);
+
+     f.add(t1);
+     f.add(t2);
+     f.add(t3);
+     f.add(t4);
+     f.add(t5);
+
+     f.add(b1);
+     f.add(b2);
+
+     b1.addActionListener(this);
+     b2.addActionListener(this);
+
+     f.setLayout(null);
+     f.setVisible(true);
+     f.setSize(1000,550);
+     d=new Dialog(f, "Submitted",false);
+     d.add(new Label("Your Resume is ACCEPTED"));
+     d.setLayout(new FlowLayout());
+     d.setSize(200,250);
+}
+  public void actionPerformed(ActionEvent e)
+  {
+       if(e.getSource()==b1)
+       {
+        StudentResume.d.setVisible(true);
+       }
+      if(e.getSource()==b2)
+       {
+        System.exit(0);
+       }
+}
+
+public static void main(String args[])
+{
+   new StudentResume();
+}
+}
+    </pre>
+</body>
+</html>

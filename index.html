@@ -1170,5 +1170,416 @@ if(alldone==True):
 else:
     print("Not Granted!")
     </pre>
+    <pre id="dbmskeywords">
+        Creating and working with Insert / Update / Delete Trigger using Before / After clause = iudba
+        Writing PL/SQL Blocks with basic programming constructs by including following: a. Sequential Statements b. unconstrained loop = ssul
+        Sequences: a. Creating simple Sequences with clauses like START WITH, INCREMENT BY, MAXVALUE, MINVALUE, CYCLE | NOCYCLE, CACHE | NOCACHE, ORDER | NOORECER. b. Creating and using Sequences for tables. = Sequences
+        Writing PL/SQL Blocks with basic programming constructs by including following: If...then...Else, IF...ELSIF...ELSE... END IF Case statement = casestatements
+        Create a table lecturer with one of the attribute as major subject. = createtable
+        Writing PL/SQL Blocks with basic programming constructs for following Iterative Structure: While-loop Statements For-loop Statements. = loopstatements
+        Writing PL/SQL Blocks with basic programming constructs by including a GoTO to jump out of a loop and NULL as a statement inside IF = gotojump
+        Writing Procedures in PL/SQL Block = procedures
+        Writing Functions in PL/SQL Block. = functions
+        Write a PL/SQL block to auto insert 10 records in an employee table. Keep updating salary of Blake and Clark by Rs.2000 and Rs.1500 respectively. As long as total salary does not exceed to 20000. As soon as total salary reaches to more than 20000 then undo the Last salary updates of Blake and Clark = update
+    </pre>
+    <pre id="iudba">
+        Questions: -
+Create table emp (eno, ename, hrs, pno, super_no) and project (pname, pno, thrs, head_no) 
+where thrs is the total hours and is the derived attribute. 
+
+Its value is the sum of all employees working on that project. eno and pno are primary keys, 
+head_no is foreign key to emp relation. 
+
+Insert 10 tuples and write triggers to do the following: Creating a trigger to insert new 
+employee tuple and display the new total hours from project table.
+
+Creating a trigger to change the hrs of existing employee and display the new total hours 
+from project table. 
+
+Creating a trigger to change the project of an employee and display the new total hours 
+from project table. 
+
+Creating a trigger to delete the project of an employee.
+
+CODE:-
+CREATE TABLE EMP2(ENO NUMBER(8) PRIMARY KEY ,NAME VARCHAR(20),HRS 
+NUMBER(8),PNO NUMBER(8));
+
+CREATE TABLE PROJECT(PNO NUMBER(8) PRIMARY KEY ,PNAME VARCHAR(20),THRS 
+NUMBER(8));
+
+DESC PROJECT;
+
+INSERT INTO PROJECT VALUES(11,'METRO TRAIN',0);
+
+INSERT INTO PROJECT VALUES(22,'MONO RAIL',0);
+
+INSERT INTO PROJECT VALUES(33,'LOCO MOTOR',0);
+
+INSERT INTO PROJECT VALUES(44,'bullet Train',0);
+
+COMMIT;
+
+CREATE OR REPLACE TRIGGER THRS7
+AFTER INSERT ON EMP2
+FOR EACH ROW
+WHEN (NEW.PNO IS NOT NULL)
+BEGIN
+UPDATE PROJECT SET THRS = THRS +:NEW.HRS WHERE PNO =:NEW.PNO;
+END;
+/
+
+INSERT INTO EMP2 VALUES(3,'Soham',25,11);
+INSERT INTO EMP2 VALUES(2,'SAMIR',25,11);
+INSERT INTO EMP2 VALUES(1,'SAM',50,11);
+COMMIT;
+
+CREATE TRIGGER THRS72
+AFTER DELETE ON EMP2
+FOR EACH ROW
+WHEN (OLD.PNO IS NOT NULL)
+BEGIN
+UPDATE PROJECT SET THRS = THRS -:OLD.HRS WHERE PNO =:OLD.PNO;
+END;
+/
+
+DELETE FROM EMP2 WHERE ENO=2 AND PNO=11;
+    </pre>
+    <pre id="ssul">
+        Question: -
+Write a PL/SQL block to insert 100 values in the table using loop [exit when] 
+also auto increment the supplier id with the help of sequence. Table: Supplier 
+{supid number(5) , suppname varchar2(15)}
+
+        CODE:-
+CREATE SEQUENCE SUPPID
+MINVALUE 1
+MAXVALUE 99999
+START WITH 10
+INCREMENT BY 5
+CACHE 20;
+create table SUPPLIER (SUPPID number(5),SUPPNAME varchar2(15));
+DECLARE
+ V_COUNTER NUMBER(5):=0;
+ V_SUPPID SUPPLIER.SUPPID%TYPE;
+ V_SUPPNAME SUPPLIER.SUPPNAME%TYPE:='TA';
+BEGIN
+ LOOP
+ INSERT INTO SUPPLIER (SUPPNAME,SUPPID) VALUES 
+(V_SUPPNAME,SUPPID.NEXTVAL);
+ V_COUNTER:=V_COUNTER+1;
+DBMS_OUTPUT.PUT_LINE(TO_CHAR(V_COUNTER)||' RECORDS ADDED');
+EXIT WHEN V_COUNTER=100;
+END LOOP;
+END;
+/
+    </pre>
+    <pre id="sequences">
+        Question:-
+Write PL/SQL block to insert 10 records in Employee table , empno 
+should be auto incremented , should begin with 10, the employee number should 
+recycle after reaching to empno 50. Empno should increment by 10. [use sequence 
+for empno ]
+        CODE:-
+CREATE SEQUENCE EMPNO
+MINVALUE 1
+MAXVALUE 99999
+START WITH 10
+INCREMENT BY 5
+CACHE 20;
+DECLARE
+V_COUNTER NUMBER(5):=0; 
+V_EMPNO EMP.EMPNO%TYPE;
+V_EMPNAME EMP.ENAME%TYPE:='RAM'; 
+BEGIN 
+LOOP 
+INSERT INTO EMP(ENAME,EMPNO) VALUES (V_EMPNAME,EMPNO.NEXTVAL); 
+V_COUNTER:=V_COUNTER+1;
+EXIT 
+WHEN V_COUNTER=10; 
+END LOOP; 
+END; 
+/
+    </pre>
+    <pre id="casestatements">
+        Question:-
+Write a PL/SQL block to increase the salary of the employee by 15% 
+whose date of joining is 12 December 2000 otherwise increase salary by 5%.
+Table : Employee { empno number(10), ename varchar2(10), salary 
+number(10)} PL/SQL:- About ‘If...then...Else, IF...ELSIF...ELSE... END IF”
+        CODE:-
+CREATE TABLE EMP5(ENO NUMBER(3) PRIMARY KEY, ENAME VARCHAR(25),SALARY 
+NUMBER(6),JOIN_DATE DATE);
+INSERT INTO EMP5 VALUES(1,'DRAKE',15000,TO_DATE('19990505','YYYYMMDD'));
+INSERT INTO EMP5 VALUES(2,'JOSH',15000,TO_DATE('20001212','YYYYMMDD'));
+INSERT INTO EMP5 VALUES(3,'JOHN',20000,TO_DATE('20020805','YYYYMMDD'));
+INSERT INTO EMP5 VALUES(4,'LUKE',10000,TO_DATE('20020806','YYYYMMDD'));
+DECLARE 
+CURSOR
+EMP_CURSOR IS SELECT ENO, SALARY, JOIN_DATE FROM EMP5;
+V_ENO EMP5.ENO%TYPE;
+V_SALARY EMP5.SALARY%TYPE;
+V_JOIN_DATE EMP5.JOIN_DATE%TYPE;
+BEGIN 
+OPEN EMP_CURSOR;
+LOOP
+FETCH EMP_CURSOR INTO V_ENO, V_SALARY, V_JOIN_DATE;
+IF EMP_CURSOR%NOTFOUND 
+THEN
+EXIT;
+ELSIF V_JOIN_DATE = TO_DATE('20001212','YYYYMMDD') 
+THEN 
+UPDATE EMP5 SET SALARY = V_SALARY*1.15 WHERE ENO = V_ENO; 
+ELSE 
+UPDATE EMP5 SET SALARY = V_SALARY*1.05 WHERE ENO = V_ENO;
+END IF; 
+END LOOP;
+CLOSE EMP_CURSOR;
+END;
+/
+    </pre>
+    <pre id="createtable">
+        Question:-
+Write a PL/SQL block with CASE WHEN statement with variable which print the 
+course name depending upon the major subject for the specified lecturer id. 
+Table : Lecturer { lid NUMBER(4), lname varchar2(14), majorsubject varchar2(10), 
+coursename varchar2(15)}
+        CODE:-
+CREATE TABLE LECTURER (LID NUMBER(4),LNAME VARCHAR2(14),MAJORSUBJECT 
+VARCHAR2(10),COURSENAME VARCHAR2(15)); 
+INSERT INTO LECTURER VALUES(1,'SAMIR','CS','COMPUTERSCIENCE'); 
+INSERT INTO LECTURER VALUES(2,'KARTIK','IT','INFOTECH'); 
+INSERT INTO LECTURER VALUES(3,'ROHAN','CS','COMPUTERSCIENCE'); 
+INSERT INTO LECTURER VALUES(4,'PRATAHM','BT','BIOTECHNOLOGY'); 
+COMMIT;
+DECLARE
+V_LID LECTURER.LID%TYPE := &V_LID; 
+V_LNAME LECTURER.LNAME%TYPE; 
+V_MAJORSUBJECT LECTURER.MAJORSUBJECT%TYPE; 
+V_COURSENAME LECTURER.COURSENAME%TYPE; 
+BEGIN 
+SELECT LNAME, MAJORSUBJECT,COURSENAME INTO V_LNAME, V_MAJORSUBJECT, 
+V_COURSENAME FROM LECTURER WHERE LID = V_LID;
+CASE 
+V_MAJORSUBJECT WHEN 'CS' THEN DBMS_OUTPUT.PUT_LINE(V_LNAME || ' : ' || 
+V_COURSENAME);
+WHEN 'IT' THEN DBMS_OUTPUT.PUT_LINE(V_LNAME || ' : ' || V_COURSENAME); 
+WHEN 'BT' THEN DBMS_OUTPUT.PUT_LINE(V_LNAME || ' : ' || V_COURSENAME); 
+END CASE; 
+END;
+/ 
+    </pre>
+    <pre id="loopstatemens">
+        Question:-
+Write a PL/SQL block to print department wise total number of 
+employees along the total salary paid to that department. [ USE : 1)While loop 2)For 
+loop ] Table(s) : Employee {empno number(4) primary key, ename varchar2(10), 
+salary number(10), deptno number(4) reference key} Department {deptno 
+number(4) primary key , dname varchar2(4)}
+        CODE:-
+DECLARE 
+CURSOR DEPARTMENT_CURSOR IS SELECT DEPTNO, DNAME FROM DEPT;
+V_DEPTNO DEPT.DEPTNO%TYPE; 
+V_DNAME DEPT.DNAME%TYPE; 
+V_SALARY_SUM NUMBER(10);
+V_EMPLOYEE_COUNT NUMBER(3); 
+BEGIN 
+OPEN DEPARTMENT_CURSOR; 
+FETCH DEPARTMENT_CURSOR INTO V_DEPTNO, V_DNAME; 
+WHILE DEPARTMENT_CURSOR%FOUND LOOP SELECT COUNT(EMPNO), SUM(SAL) 
+INTO V_EMPLOYEE_COUNT, V_SALARY_SUM FROM EMP WHERE DEPTNO = 
+V_DEPTNO;
+DBMS_OUTPUT.PUT_LINE(V_DEPTNO || ' ' || V_DNAME || ' ' || ' TOTAL SALARY: ' || 
+V_SALARY_SUM || ' EMPLOYEE COUNT: ' || V_EMPLOYEE_COUNT ); 
+FETCH DEPARTMENT_CURSOR INTO V_DEPTNO, V_DNAME; 
+END LOOP;
+CLOSE DEPARTMENT_CURSOR;
+END; 
+/
+        CODE:-
+DECLARE 
+CURSOR DEPT_CURSOR IS SELECT * FROM DEPT;
+V_SALARY_SUM NUMBER(10); 
+V_EMPLOYEE_COUNT NUMBER(3);
+V_DEPARTMENT_ROW DEPT%ROWTYPE;
+BEGIN
+FOR V_DEPARTMENT_ROW IN DEPT_CURSOR
+LOOP 
+SELECT COUNT(EMPNO), SUM(SAL) INTO V_EMPLOYEE_COUNT, V_SALARY_SUM 
+FROM EMP WHERE DEPTNO = V_DEPARTMENT_ROW.DEPTNO; 
+DBMS_OUTPUT.PUT_LINE(V_DEPARTMENT_ROW.DEPTNO || ' '|| 
+V_DEPARTMENT_ROW.DNAME || ' ' || ' TOTAL SALARY: ' || V_SALARY_SUM || ' 
+EMPLOYEE COUNT: ' || V_EMPLOYEE_COUNT);
+END LOOP; 
+CLOSE DEPT_CURSOR;
+END;
+21
+/
+    </pre>
+    <pre id="gotojump">
+        Question:-
+Write a PL/SQL block to print employees name and number excluding 
+empno 10 and 15 along their department name. [USE : Goto statement] 
+Table employee {empno number(5) primary key , ename varchar2(15), deptno 
+number(4) reference key} Department {deptno number(4) primary key , dname 
+varchar2(4)}
+        CODE:-
+CREATE TABLE EMPA AS SELECT EMPNO,ENAME , DEPTNO FROM EMP;
+CREATE TABLE DEPA AS SELECT DEPTNO,DNAME FROM DEPT;
+DECLARE
+CURSOR EMPLOYEE_CURSOR IS SELECT * FROM EMPA;
+V_EMPLOYEE_ROW EMP%ROWTYPE;
+V_DNAME DEPA.DNAME%TYPE;
+BEGIN
+FOR V_EMPLOYEE_ROW IN EMPLOYEE_CURSOR LOOP
+IF V_EMPLOYEE_ROW.EMPNO = 7369 OR V_EMPLOYEE_ROW.EMPNO = 7499 
+THEN
+GOTO sies;
+END IF;
+SELECT DNAME INTO V_DNAME FROM DEPT WHERE DEPTNO =
+V_EMPLOYEE_ROW.DEPTNO;
+DBMS_OUTPUT.PUT_LINE(V_EMPLOYEE_ROW.EMPNO || ' ' || 
+V_EMPLOYEE_ROW.ENAME || ' ' || V_DNAME);
+&lt;&lt;sies&gt;&gt;
+null;
+END LOOP;
+end;
+23
+/
+    </pre>
+    <pre id="procedures">
+        Question:-
+The HRD manager has decided to rise the salary of employee by 0.15. 
+write PL/SQL block to accept the employee number and update the salary of that 
+employee through procedure. 
+Display appropriate message based on the existence of the record in employee table. 
+Table: employee {empno number(5) primary key , ename varchar2(15)} 
+Question: Write PL/SQL procedure to accept the employee number and display 
+employees name along salary and his department name. 
+Table employee {empno number(5) primary key , ename varchar2(15), deptno 
+number(4) reference key} Department {deptno number (4) primary key , dname 
+varchar2(4)}
+        CODE:-
+CREATE OR REPLACE PROCEDURE INCREASE_SALARY (P_EMPNO EMP.EMPNO%TYPE) 
+IS V_SALARY EMP.SAL%TYPE; 
+V_ENAME EMP.ENAME%TYPE;
+BEGIN 
+SELECT ENAME, SAL INTO V_ENAME, V_SALARY FROM EMP WHERE EMPNO = P_EMPNO;
+UPDATE EMP SET SAL = V_SALARY*1.15 WHERE EMPNO = P_EMPNO; 
+DBMS_OUTPUT.PUT_LINE('INCREMENTED SALARY FOR ' || V_ENAME || ' FROM ' || 
+V_SALARY || ' TO ' || V_SALARY*1.15); 
+EXCEPTION
+WHEN NO_DATA_FOUND 
+THEN
+DBMS_OUTPUT.PUT_LINE('RECORD NOT FOUND');
+END; 
+26
+/ 
+DECLARE V_EMPNO EMP.EMPNO%TYPE := &V_EMPNO; 
+BEGIN INCREASE_SALARY(V_EMPNO); 
+END;
+/
+        CODE:-
+CREATE OR REPLACE PROCEDURE DISPLAY_EMPLOYEE (P_EMPNO EMP.EMPNO%TYPE) IS V_ENAME 
+EMP.ENAME%TYPE;
+V_SALARY EMP.SAL%TYPE;
+V_DEPTNO EMP.DEPTNO%TYPE; 
+V_DNAME DEPT.DNAME%TYPE; 
+BEGIN
+SELECT ENAME, SAL, DEPTNO INTO V_ENAME, V_SALARY, V_DEPTNO FROM EMP WHERE EMPNO = 
+P_EMPNO; 
+SELECT DNAME INTO V_DNAME FROM DEPT WHERE DEPTNO = V_DEPTNO; 
+DBMS_OUTPUT.PUT_LINE(V_ENAME || ' ' || V_SALARY || ' ' || V_DNAME); 
+27
+EXCEPTION
+WHEN NO_DATA_FOUND THEN DBMS_OUTPUT.PUT_LINE('RECORD NOT FOUND'); 
+END;
+/
+DECLARE
+V_EMPNO EMP.EMPNO%TYPE := &V_EMPNO;
+BEGIN 
+DISPLAY_EMPLOYEE(V_EMPNO); 
+END; 
+/
+    </pre>
+    <pre id="functions">
+        Question:-
+Write PL/SQL function to accept department id and display total number 
+of employees working in that department along the maximum salary of that 
+department.
+Table employee {empno number(5) primary key , ename varchar2(15), deptno 
+number(4) reference key} Department {deptno number (4) primary key , dname 
+varchar2(4)} Writing a recursive Functions in PL/SQL Block 
+Question: Write PL/SQL recursive function to list top ten employees name along their 
+salary.
+Table employee {empno number(5) primary key , ename varchar2(15)}
+        CODE:-
+CREATE OR REPLACE FUNCTION PRACTICAL9A_FUNCTION(P_DEPTNO DEPT.DEPTNO%TYPE) RETURN 
+VARCHAR2 IS V_EMPLOYEE_COUNT NUMBER(2); 
+V_MAX_SALARY EMP.SAL%TYPE; 
+BEGIN 
+SELECT COUNT(EMPNO),MAX(SAL) INTO V_EMPLOYEE_COUNT, V_MAX_SALARY FROM EMP WHERE 
+DEPTNO = P_DEPTNO; 
+IF V_EMPLOYEE_COUNT = 0 THEN RETURN 'NO RECORDS'; 
+ELSE 
+RETURN 'EMPLOYEE COUNT: ' || V_EMPLOYEE_COUNT || 'MAX SALARY: ' || V_MAX_SALARY; 
+END IF;
+END; 
+/ 
+DECLARE
+V_DEPTNO DEPT.DEPTNO%TYPE := &V_DEPTNO; 
+BEGIN
+DBMS_OUTPUT.PUT_LINE(PRACTICAL9A_FUNCTION(V_DEPTNO));
+END;
+/
+        CODE:-
+CREATE OR REPLACE FUNCTION PRACTICAL9B_FUNCTION(COUNTER NUMBER) 
+RETURN VARCHAR2 
+IS 
+V_ENAME EMP4.ENAME%TYPE;
+V_SALARY EMP4.SALARY%TYPE; 
+BEGIN 
+IF COUNTER = 12 THEN 
+RETURN 'COMPLETED'; 
+END IF; 
+SELECT ENAME, SALARY INTO V_ENAME, V_SALARY FROM EMP4 WHERE EMPNO =
+COUNTER; 
+DBMS_OUTPUT.PUT_LINE(V_ENAME || ' ' || V_SALARY); 
+RETURN PRACTICAL9B_FUNCTION(COUNTER + 1); 
+30
+END; 
+/
+BEGIN
+DBMS_OUTPUT.PUT_LINE(PRACTICAL9B_FUNCTION(1)); 
+END;
+/
+    </pre>
+    <pre id="update">
+        CODE:-
+CREATE TABLE EMP4 (EMPNO NUMBER(5) PRIMARY KEY , ENAME VARCHAR2(15), SALARY 
+NUMBER(10));
+INSERT INTO EMP4 VALUES(001,’TATYA’,900); 
+INSERT INTO EMP4 VALUES(002,’VARUN’,1000); 
+INSERT INTO EMP4 VALUES(003,’ALEX’,200);
+INSERT INTO EMP4 VALUES(004,’STEVE’,250); 
+INSERT INTO EMP4 VALUES(005,’PETER’,350);
+INSERT INTO EMP4 VALUES(006,’PRASAD’,300); 
+INSERT INTO EMP4 VALUES(007,’REVA’,500); 
+INSERT INTO EMP4 VALUES(008,’SANIKA’,550);
+INSERT INTO EMP4 VALUES(009,’RUCHITA’,600); 
+INSERT INTO EMP4 VALUES(010,’ROBERT’,650); 
+DECLARE
+TOTAL_SAL NUMBER(9); 
+BEGIN
+INSERT INTO EMP4 VALUES(012,'SARA',1500);
+SAVEPOINT NO_UPDATE;
+UPDATE EMP4 SET SALARY = SALARY+2000 WHERE ENAME = 'REVA';
+UPDATE EMP4 SET SALARY = SALARY + 1500 WHERE ENAME = 'STEVE'; 
+SELECT SUM(SALARY) INTO TOTAL_SAL FROM EMP4;
+IF TOTAL_SAL>2000 THEN ROLLBACK TO SAVEPOINT NO_UPDATE;
+END IF;
+COMMIT; END;
+/
+    </pre>
 </body>
 </html>

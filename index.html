@@ -593,6 +593,8 @@ public static void main(String args[])
 
 
     <pre id="oskeywords">
+        armstrong number = armstrong
+        krishnamurthy number = krishnamurthy
         python program to understand the basic working of multithreading Code = multithreading
         write a multithreaded python application for implementing a thread which accepts a number from the user and displays the sum of values from 1 to that to number create minimum two threads with different input value = twomumbers
         write a multithreaded python application for implementing a thread which accept  two numbers from the user and display the prime number between the two numbers minimum two threads with different input value = primenumberthread
@@ -604,6 +606,75 @@ public static void main(String args[])
         SJF (Non premptive ) = sjf
         Write a program to implement Bounded Buffer to solve Producer -Consumer with Semaphore. = bbsemaphore
         Write a Python program that implements the bankers algorithm = bankersalgo
+    </pre>
+    <pre id="armstrong">
+import threading
+
+def is_armstrong(num):
+    # Calculate the sum of each digit raised to the number of digits
+    sum = 0
+    temp = num
+    order = len(str(num))
+    while temp > 0:
+        digit = temp % 10
+        sum += digit ** order
+        temp //= 10
+
+    # Check if the sum is equal to the original number
+    if num == sum:
+        print(f"{num} is an Armstrong number")
+    else:
+        print(f"{num} is not an Armstrong number")
+
+def main():
+    num = int(input("Enter a number: "))
+
+    # Create a worker thread to check if the number is Armstrong
+    worker_thread = threading.Thread(target=is_armstrong, args=(num,))
+    worker_thread.start()
+
+    # Do some other work in the main thread while the worker thread is running
+    print("Main thread is still running...")
+
+    # Wait for the worker thread to finish before exiting
+    worker_thread.join()
+if __name__ == "__main__":
+    main()
+    </pre>
+    <pre id="krishnamurthy">
+import threading
+import math
+
+def is_krishnamurthy(num):
+    # Calculate the sum of the factorial of each digit
+    sum = 0
+    temp = num
+    while temp > 0:
+        digit = temp % 10
+        sum += math.factorial(digit)
+        temp //= 10
+
+    # Check if the sum is equal to the original number
+    if num == sum:
+        print(f"{num} is a Krishnamurthy number")
+    else:
+        print(f"{num} is not a Krishnamurthy number")
+
+def main():
+    num = int(input("Enter a number: "))
+
+    # Create a worker thread to check if the number is a Krishnamurthy number
+    worker_thread = threading.Thread(target=is_krishnamurthy, args=(num,))
+    worker_thread.start()
+
+    # Do some other work in the main thread while the worker thread is running
+    print("Main thread is still running...")
+
+    # Wait for the worker thread to finish before exiting
+    worker_thread.join()
+
+if __name__ == "__main__":
+    main()
     </pre>
     <pre id="multithreading">
 import threading
